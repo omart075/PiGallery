@@ -1,0 +1,17 @@
+cachetools==5.3.2
+certifi==2023.11.17
+charset-normalizer==3.3.2
+idna==3.6
+numpy==1.26.2
+oauthlib==3.2.2
+Pillow==10.1.0
+pyasn1==0.5.1
+pyasn1-modules==0.3.0
+python-dateutil==2.8.2
+pytz==2023.3.post1
+requests==2.31.0
+requests-oauthlib==1.3.1
+rsa==4.9
+six==1.16.0
+tzdata==2023.3
+urllib3==2.1.0
