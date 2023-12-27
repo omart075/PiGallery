@@ -42,22 +42,22 @@ class MyListener(leap.Listener):
                 self.starting_x = hand.palm.position.x
                 print(f"Starting x position: {self.starting_x}")
 
-                # determine direction of gesture
+                # determine direction of gesture from starting position
                 if hand.palm.position.x > 100 and hand.palm.position.x < 200:
-                    self.swipe_direction = "back"  
+                    self.swipe_direction = "forward"  
                 elif hand.palm.position.x > -200 and hand.palm.position.x < -100:
-                    self.swipe_direction = "forward"
+                    self.swipe_direction = "back"
 
             # if gesture is ending
             else:
                 # translate gesture to keypress
-                if self.swipe_direction == "back" and hand.palm.position.x < -100 and not self.gesture_ack:
+                if self.swipe_direction == "forward" and hand.palm.position.x < -100 and not self.gesture_ack:
                     self.ending_x = hand.palm.position.x
                     print(f"Swiped {hand_type} hand {self.swipe_direction} from {self.starting_x} to {self.ending_x}")
                     self.keyboard.press('a')
                     self.keyboard.release('a')
                     self.gesture_ack = True
-                elif self.swipe_direction == "forward" and hand.palm.position.x > 100 and not self.gesture_ack:
+                elif self.swipe_direction == "back" and hand.palm.position.x > 100 and not self.gesture_ack:
                     self.ending_x = hand.palm.position.x
                     print(f"Swiped {hand_type} hand {self.swipe_direction} from {self.starting_x} to {self.ending_x}")
                     self.keyboard.press('d')
