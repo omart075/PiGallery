@@ -24,11 +24,14 @@ def update_image(index=None):
     '''
     global id
 
-    if not index:
+    if index is None:
+        print("random")
         idx = random.randint(0, len(IMAGE_NAMES)-1)
     else:
         window.after_cancel(id)
         idx = index
+
+    print(idx)
 
     image = Image.open(f'{IMAGES_DIR}/{IMAGE_NAMES[idx]}')
     width, height = image.size
@@ -39,22 +42,41 @@ def update_image(index=None):
     label.configure(image=image)
     label.image = image
 
-    if not index:
+    if index is None:
         if id:
             window.after_cancel(id)
         id = window.after(5000, update_image)
+        print(f"Thread: {id}")
     
 
 def update_image_randomly(e):
     update_image()
 
 
-def update_image_manually(e):
-    update_image(1)
+def update_image_back(e):
+    global idx
+
+    if idx == 0:
+        idx = len(IMAGE_NAMES)-1
+    else:
+        idx -= 1
+
+    update_image(idx)
+    
+def update_image_forward(e):
+    global idx
+
+    if idx == len(IMAGE_NAMES)-1:
+        idx = 0
+    else:
+        idx += 1
+
+    update_image(idx)
     
 
 if __name__ == '__main__':
     id = None
+    idx = 0
     window = create_window()
 
     image = Image.open(f'{IMAGES_DIR}/{IMAGE_NAMES[0]}')
@@ -67,7 +89,8 @@ if __name__ == '__main__':
 
     update_image()
 
-    window.bind("1", update_image_randomly)
-    window.bind("<Return>", update_image_manually)
+    window.bind("s", update_image_randomly)
+    window.bind("a", update_image_back)
+    window.bind("d", update_image_forward)
     
     window.mainloop()

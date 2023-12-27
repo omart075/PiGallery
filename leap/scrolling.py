@@ -1,5 +1,6 @@
 import leap
 import time
+from pynput.keyboard import Controller
 
 
 class MyListener(leap.Listener):
@@ -7,7 +8,9 @@ class MyListener(leap.Listener):
         self.starting_x = None
         self.ending_x = None
         self.swipe_direction = None
-        self.ack = True
+        self.hand_ack = True
+        self.gesture_ack = False
+        self.keyboard = Controller()
 
     def on_connection_event(self, event):
         print("Connected")
@@ -22,32 +25,44 @@ class MyListener(leap.Listener):
         print(f"Found device {info.serial}")
 
     def on_tracking_event(self, event):
-        # print(f"Frame {event.tracking_frame_id} with {len(event.hands)} hands.")
-        if len(event.hands) == 0 and self.ack:
+        # reset if hands are not visible
+        if len(event.hands) == 0 and self.hand_ack:
             self.starting_x = None
             self.ending_x = None
+            self.hand_ack = False
+            self.gesture_ack = False
             print("No hands detected")
-            self.ack = False
 
         for hand in event.hands:
-            self.ack = True
+            self.hand_ack = True
             hand_type = "left" if str(hand.type) == "HandType.Left" else "right"
             
+            # if gesture is starting
             if not self.starting_x:
                 self.starting_x = hand.palm.position.x
                 print(f"Starting x position: {self.starting_x}")
 
+                # determine direction of gesture
                 if hand.palm.position.x > 100 and hand.palm.position.x < 200:
                     self.swipe_direction = "back"  
                 elif hand.palm.position.x > -200 and hand.palm.position.x < -100:
                     self.swipe_direction = "forward"
+
+            # if gesture is ending
             else:
-                if self.swipe_direction == "back" and hand.palm.position.x < -100:
+                # translate gesture to keypress
+                if self.swipe_direction == "back" and hand.palm.position.x < -100 and not self.gesture_ack:
                     self.ending_x = hand.palm.position.x
                     print(f"Swiped {hand_type} hand {self.swipe_direction} from {self.starting_x} to {self.ending_x}")
-                elif self.swipe_direction == "forward" and hand.palm.position.x > 100:
+                    self.keyboard.press('a')
+                    self.keyboard.release('a')
+                    self.gesture_ack = True
+                elif self.swipe_direction == "forward" and hand.palm.position.x > 100 and not self.gesture_ack:
                     self.ending_x = hand.palm.position.x
                     print(f"Swiped {hand_type} hand {self.swipe_direction} from {self.starting_x} to {self.ending_x}")
+                    self.keyboard.press('d')
+                    self.keyboard.release('d')
+                    self.gesture_ack = True
 
 
 def main():
