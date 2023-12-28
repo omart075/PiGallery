@@ -23,6 +23,7 @@ def update_image(index=None):
     If there is manual intervention, image does not change randomly until signal resets timer.
     '''
     global id
+    global idx
 
     if index is None:
         print("random")
