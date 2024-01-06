@@ -37,7 +37,9 @@ def update_image(index=None):
     image = Image.open(f'{IMAGES_DIR}/{IMAGE_NAMES[idx]}')
     width, height = image.size
 
-    resized_image = image.copy().resize((int(width/3), int(height/3)))
+    width, height = resize_image_dimensions(width, height, window)
+
+    resized_image = image.copy().resize((int(width), int(height)))
     image = ImageTk.PhotoImage(resized_image)
 
     label.configure(image=image)
@@ -73,9 +75,37 @@ def update_image_forward(e):
         idx += 1
 
     update_image(idx)
+
+def resize_image_dimensions(width, height, window):
+    '''
+    Scale down images relative to screen size
+    '''
+    screen_width = window.winfo_screenwidth()
+    screen_height = window.winfo_screenheight()
+    divisor = 2.5
+
+    if width > height:
+        ratio = width / screen_width
+        width = screen_width / divisor
+        height = height / ratio / divisor
+    elif height > width:
+        ratio = height / screen_height
+        width = width / ratio / divisor
+        height = screen_height / divisor
+    else:
+        width = screen_width / divisor
+        height = screen_height / divisor
+
+    print(width, height)
+    
+    return width, height
     
 
 if __name__ == '__main__':
+    # if (os.environ.get("DISPLAY", "") == ""):
+    #     print("No display found")
+    #     os.environ.__setitem__("DISPLAY", ":0")
+        
     id = None
     idx = 0
     window = create_window()
@@ -83,10 +113,13 @@ if __name__ == '__main__':
     image = Image.open(f'{IMAGES_DIR}/{IMAGE_NAMES[0]}')
     width, height = image.size
 
-    resized_image = image.copy().resize((int(width/3), int(height/3)))
+    width, height = resize_image_dimensions(width, height, window)
+
+    resized_image = image.copy().resize((int(width), int(height)))
     image = ImageTk.PhotoImage(resized_image)
     label = tk.Label(window, bg='black', image=image)
-    label.pack()
+    # label.pack()
+    label.place(relx=0.5, rely=0.5, anchor='center')
 
     update_image()
 
