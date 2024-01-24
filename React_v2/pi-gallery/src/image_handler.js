@@ -59,15 +59,15 @@ const image_info = [
 ]
 
 function resizeImages() {
-    var ratio;
-    var resized_height;
-    var resized_width;
+    let ratio;
+    let resized_height;
+    let resized_width;
 
     const wh = window.innerHeight
     const ww = window.innerWidth
 
     for (let i = 0; i < image_info.length; i++) {
-        var img = new Image();
+        let img = new Image();
         img.src = image_info[i].img
 
         if (img.width > img.height) {
@@ -100,6 +100,7 @@ export default function ImageSwapper() {
     const [currentImage, setCurrentImage] = useState(null);
     const [random, setRandom] = useState(true);
     const [key, setKey] = useState("");
+    const [change, setChange] = useState(0);
 
     useEffect(() => {
         window.addEventListener('keypress', e => {
@@ -111,33 +112,56 @@ export default function ImageSwapper() {
                 setRandom(false)
                 setKey(e.key)   
             }
+            setChange(prev => prev + 1)
         });
     }, [])
 
     useEffect(() => {
-        var intervalId = null;
+        let intervalId = null;
+
         if(random === true) {
             console.log(random, key)
             intervalId = setInterval(() => {
-                var i = Math.floor(Math.random() * image_info.length)
+                let i = Math.floor(Math.random() * image_info.length)
                 setCurrentIndex(i)
                 setCurrentImage(image_info[i]);
             }, 5000)
         }
         else {
             console.log(random, key)
-            intervalId = setInterval(() => {
-                if(currentIndex === image_info.length - 1) {
-                    setCurrentIndex(0);
-                } 
-                else {
-                     setCurrentIndex(currentIndex + 1);
-                }
-            }, 5000)
+            let newIndex = 0
+            if (key === "a") {
+                intervalId = setInterval(() => {
+                    if(currentIndex === 0) {
+                        newIndex = image_info.length - 1
+                        setCurrentIndex(newIndex);
+                        setCurrentImage(image_info[newIndex]);
+                    } 
+                    else {
+                        newIndex = currentIndex - 1
+                        setCurrentIndex(newIndex);
+                        setCurrentImage(image_info[newIndex]);
+                    }
+                }, 10)
+            }
+            else if (key === "d") {
+                intervalId = setInterval(() => {
+                    if(currentIndex === image_info.length - 1) {
+                        newIndex = 0
+                        setCurrentIndex(newIndex);
+                        setCurrentImage(image_info[newIndex]);
+                    } 
+                    else {
+                        newIndex = currentIndex + 1
+                        setCurrentIndex(newIndex);
+                        setCurrentImage(image_info[newIndex]);
+                    }
+                }, 10)
+            }
         }
         
         return () => clearInterval(intervalId);
-    }, [random, key])
+    }, [random, key, change])
     
     return (
         <div>
