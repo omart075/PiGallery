@@ -1,14 +1,12 @@
-env/
-__pycache__/
-config.py
+/Python_v1/env/
+/Python_v1/__pycache__/
+/Python_v1/config.py
 
-# dependencies
-/PiGallery_v2/pi-gallery/node_modules
+/React_v2/node_modules
+/React_v2/pi-gallery/node_modules
+/React_v2/pi-gallery/src/imgs
 
 # misc
-
-npm-debug.log*
-yarn-debug.log*
-yarn-error.log*
-
-/PiGallery_v2/pi-gallery/src/imgs
+/React_v2/npm-debug.log*
+/React_v2/yarn-debug.log*
+/React_v2/yarn-error.log*
