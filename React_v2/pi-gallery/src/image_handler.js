@@ -8,8 +8,10 @@ import img5 from './imgs/6.png'
 import img6 from './imgs/7.png'
 import gif0 from './imgs/2_1.gif'
 import gif1 from './imgs/2_2.gif'
+import gif2 from './imgs/2_3.gif'
+import gif3 from './imgs/2_4.gif'
 
-const divisor = 2.5
+const divisor = 2.0
 const image_info = [
     {
         img: img0,
@@ -55,7 +57,17 @@ const image_info = [
         img: gif1,
         width: 0,
         height: 0
-    }
+    },
+    // {
+    //     img: gif2,
+    //     width: 0,
+    //     height: 0
+    // },
+    // {
+    //     img: gif3,
+    //     width: 0,
+    //     height: 0
+    // }
 ]
 
 function resizeImages() {
@@ -107,12 +119,13 @@ export default function ImageSwapper() {
             if (e.key === "s") {
                 setRandom(prev => !prev);
                 setKey(e.key)
+                setChange(prev => prev + 1)
             }
-            else {
+            else if (["a", "d"].includes(e.key)) {
                 setRandom(false)
-                setKey(e.key)   
+                setKey(e.key)
+                setChange(prev => prev + 1)
             }
-            setChange(prev => prev + 1)
         });
     }, [])
 
@@ -120,7 +133,6 @@ export default function ImageSwapper() {
         let intervalId = null;
 
         if(random === true) {
-            console.log(random, key)
             intervalId = setInterval(() => {
                 let i = Math.floor(Math.random() * image_info.length)
                 setCurrentIndex(i)
@@ -128,7 +140,6 @@ export default function ImageSwapper() {
             }, 5000)
         }
         else {
-            console.log(random, key)
             let newIndex = 0
             if (key === "a") {
                 intervalId = setInterval(() => {
