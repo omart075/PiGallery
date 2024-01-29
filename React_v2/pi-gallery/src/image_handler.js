@@ -1,23 +1,19 @@
 import React, { useEffect, useState } from "react";
-import img0 from './imgs/1.PNG'
-import img1 from './imgs/2.PNG'
-import img2 from './imgs/3.png'
-import img3 from './imgs/4.png'
-import img4 from './imgs/5.png'
-import img5 from './imgs/6.png'
-import img6 from './imgs/7.png'
-import gif0 from './imgs/2_1.gif'
-import gif1 from './imgs/2_2.gif'
-import gif2 from './imgs/2_3.gif'
-import gif3 from './imgs/2_4.gif'
+import img1 from './imgs/1.PNG'
+import img2 from './imgs/2.PNG'
+import img3 from './imgs/3.png'
+import img4 from './imgs/4.png'
+import img5 from './imgs/5.png'
+import img6 from './imgs/6.png'
+import img7 from './imgs/7.png'
+import img8 from './imgs/8.PNG'
+import gif1 from './imgs/2_1.gif'
+import gif2 from './imgs/2_2.gif'
+import gif3 from './imgs/2_3.gif'
+import gif4 from './imgs/2_4.gif'
 
 const divisor = 2.0
 const image_info = [
-    {
-        img: img0,
-        width: 0,
-        height: 0
-    },
     {
         img: img1,
         width: 0,
@@ -49,7 +45,12 @@ const image_info = [
         height: 0
     },
     {
-        img: gif0,
+        img: img7,
+        width: 0,
+        height: 0
+    },
+    {
+        img: img8,
         width: 0,
         height: 0
     },
@@ -58,13 +59,18 @@ const image_info = [
         width: 0,
         height: 0
     },
+    {
+        img: gif2,
+        width: 0,
+        height: 0
+    },
     // {
-    //     img: gif2,
+    //     img: gif3,
     //     width: 0,
     //     height: 0
     // },
     // {
-    //     img: gif3,
+    //     img: gif4,
     //     width: 0,
     //     height: 0
     // }

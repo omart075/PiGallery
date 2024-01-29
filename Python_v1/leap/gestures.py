@@ -2,6 +2,9 @@ import leap
 import time
 from pynput.keyboard import Controller
 
+'''
+sudo systemctl start libtrack_server
+'''
 
 class MyListener(leap.Listener):
     def __init__(self):
@@ -32,7 +35,7 @@ class MyListener(leap.Listener):
             self.ending_x = None
             self.hand_ack = False
             self.gesture_ack = False
-            self.pinching_ack = False
+            self.static_ack = False
             self.swipe_direction = None
             print("No hands detected")
 
@@ -41,17 +44,22 @@ class MyListener(leap.Listener):
             hand_type = "left" if str(hand.type) == "HandType.Left" else "right"
 
             # check for static gestures
-            if hand.palm.position.x > -100 and hand.palm.position.x < 100 and not self.swipe_direction and not self.pinching_ack:
-                thumb = hand.digits[0].distal.next_joint
-                index_finger = hand.digits[1].distal.next_joint
-
-                diff = list(map(abs, map(float.__sub__, thumb, index_finger)))
-
-                if diff[0] < 20 and diff[1] < 20 and diff[2] < 20:
-                    self.pinching_ack = True
+            if hand.palm.position.x > -100 and hand.palm.position.x < 100 and not self.swipe_direction and not self.static_ack:
+                if hand.grab_strength > 0.8:
+                    self.static_ack = True
                     self.keyboard.press('s')
                     self.keyboard.release('s')
-                    print(f"Gesture: pinch | Hand: {hand_type} | Position: {hand.palm.position.x}")
+                    print(f"Gesture: fist | Hand: {hand_type} | Position: {hand.palm.position.x} | Strength: {hand.grab_strength}")
+
+                else:
+                    thumb = hand.digits[0].distal.next_joint
+                    index_finger = hand.digits[1].distal.next_joint
+
+                    diff = list(map(abs, map(float.__sub__, thumb, index_finger)))
+
+                    if diff[0] < 20 and diff[1] < 20 and diff[2] < 20:
+                        self.static_ack = True    
+                        print(f"Gesture: pinch | Hand: {hand_type} | Position: {hand.palm.position.x}")
             
             
             # if gesture is starting
