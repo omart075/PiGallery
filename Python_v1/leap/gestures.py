@@ -7,6 +7,8 @@ from pynput.keyboard import Controller
 sudo systemctl start libtrack_server
 '''
 
+pyautogui.PAUSE = 0
+
 class MyListener(leap.Listener):
     def __init__(self):
         self.starting_x = None
@@ -77,47 +79,47 @@ class MyListener(leap.Listener):
                 x_ratio = (self.display_width / 2) / tracking_range
                 y_ratio = (self.display_height / 2) / tracking_range
 
-                if hand.digits[1].is_extended and not hand.digits[0].is_extended and not hand.digits[2].is_extended and not hand.digits[3].is_extended and not hand.digits[4].is_extended:
-                    if hand.palm.position.x < 0 and hand.palm.position.x >= -200:
-                        hand_x = hand.palm.position.x + tracking_range
-                        x = round(hand_x * x_ratio)
-                    elif hand.palm.position.x == 0:
-                        x = self.display_width / 2
-                    elif hand.palm.position.x > 0 and hand.palm.position.x <= 200:
-                        x = round((self.display_width / 2) + hand.palm.position.x * x_ratio)
-                    
-                    if hand.palm.position.z < 0 and hand.palm.position.z >= -200:
-                        hand_z = hand.palm.position.z + tracking_range
-                        y = round(hand_z * y_ratio)
-                    elif hand.palm.position.z == 0:
-                        y = self.display_height / 2
-                    elif hand.palm.position.z > 0 and hand.palm.position.z <= 200:
-                        y = round((self.display_height / 2) + hand.palm.position.z * y_ratio)
+                
+                if hand.palm.position.x < 0 and hand.palm.position.x >= -200:
+                    hand_x = hand.palm.position.x + tracking_range
+                    x = round(hand_x * x_ratio)
+                elif hand.palm.position.x == 0:
+                    x = self.display_width / 2
+                elif hand.palm.position.x > 0 and hand.palm.position.x <= 200:
+                    x = round((self.display_width / 2) + hand.palm.position.x * x_ratio)
+                
+                if hand.palm.position.z < 0 and hand.palm.position.z >= -200:
+                    hand_z = hand.palm.position.z + tracking_range
+                    y = round(hand_z * y_ratio)
+                elif hand.palm.position.z == 0:
+                    y = self.display_height / 2
+                elif hand.palm.position.z > 0 and hand.palm.position.z <= 200:
+                    y = round((self.display_height / 2) + hand.palm.position.z * y_ratio)
 
-                    # pyautogui.moveTo(x, y)
+                pyautogui.moveTo(x, y)
 
             else:
                 # if gesture is starting
                 if not self.swipe_direction:
                     # determine direction of gesture from starting position
-                    if hand.palm.position.x > 100 and hand.palm.position.x < 200:
+                    if hand.palm.position.x > 100:
                         self.swipe_direction = "forward"
                         self.starting_x = hand.palm.position.x
 
-                    elif hand.palm.position.x > -200 and hand.palm.position.x < -100:
+                    elif hand.palm.position.x < -100:
                         self.swipe_direction = "back"
                         self.starting_x = hand.palm.position.x
 
                 # if gesture is ending
                 else:
                     # translate gesture to keypress
-                    if self.swipe_direction == "forward" and hand.palm.position.x < -100 and not self.gesture_ack:
+                    if self.swipe_direction == "forward" and hand.palm.position.x < 0 and not self.gesture_ack:
                         self.ending_x = hand.palm.position.x
                         print(f"Gesture: swipe | Hand: {hand_type} | Direction: {self.swipe_direction} | Position: {self.starting_x} to {self.ending_x}")
                         self.keyboard.press('d')
                         self.keyboard.release('d')
                         self.gesture_ack = True
-                    elif self.swipe_direction == "back" and hand.palm.position.x > 100 and not self.gesture_ack:
+                    elif self.swipe_direction == "back" and hand.palm.position.x > 0 and not self.gesture_ack:
                         self.ending_x = hand.palm.position.x
                         print(f"Gesture: swipe | Hand: {hand_type} | Direction: {self.swipe_direction} | Position: {self.starting_x} to {self.ending_x}")
                         self.keyboard.press('a')

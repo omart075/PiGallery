@@ -9,11 +9,9 @@ import img7 from './imgs/7.png'
 import img8 from './imgs/8.PNG'
 import gif1 from './imgs/2_1.gif'
 import gif2 from './imgs/2_2.gif'
-import gif3 from './imgs/2_3.gif'
-import gif4 from './imgs/2_4.gif'
 
 const divisor = 2.0
-const image_info = [
+const temp = [
     {
         img: img1,
         width: 0,
@@ -63,18 +61,28 @@ const image_info = [
         img: gif2,
         width: 0,
         height: 0
-    },
-    // {
-    //     img: gif3,
-    //     width: 0,
-    //     height: 0
-    // },
-    // {
-    //     img: gif4,
-    //     width: 0,
-    //     height: 0
-    // }
+    }
 ]
+
+function shuffle(array) {
+    let currentIndex = array.length,  randomIndex;
+  
+    // While there remain elements to shuffle.
+    while (currentIndex > 0) {
+  
+      // Pick a remaining element.
+      randomIndex = Math.floor(Math.random() * currentIndex);
+      currentIndex--;
+  
+      // And swap it with the current element.
+      [array[currentIndex], array[randomIndex]] = [
+        array[randomIndex], array[currentIndex]];
+    }
+  
+    return array;
+}
+
+const image_info = shuffle(temp)
 
 function resizeImages() {
     let ratio;
@@ -182,7 +190,7 @@ export default function ImageSwapper() {
     
     return (
         <div>
-               {currentImage && <img src={currentImage.img} style={{height: currentImage.height+'px', width:currentImage.width+'px'}}/>}
+               {currentImage && <img src={currentImage.img} alt="" style={{height: currentImage.height+'px', width:currentImage.width+'px'}}/>}
         </div>
      )
  }

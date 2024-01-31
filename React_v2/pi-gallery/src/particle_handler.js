@@ -44,7 +44,7 @@ export default function CustomParticles() {
                 },
                 trail: {
                     delay: 0.005,
-                    quantity: 5,
+                    quantity: 1,
                     pauseOnStop: true,
                 },
             },
@@ -90,7 +90,9 @@ export default function CustomParticles() {
                 direction: "none",
                 random: false,
                 straight: false,
-                outMode: "destroy",
+                outModes: {
+                    default: "bounce",
+                },
                 attract: {
                     enable: false,
                     rotateX: 600,
