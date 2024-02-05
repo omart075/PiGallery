@@ -147,41 +147,39 @@ export default function ImageSwapper() {
         let intervalId = null;
 
         if(random === true) {
-            intervalId = setInterval(() => {
+            // trigger random generation before interval
+            intervalId = setInterval(function getRandomImage () {
                 let i = Math.floor(Math.random() * image_info.length)
                 setCurrentIndex(i)
                 setCurrentImage(image_info[i]);
-            }, 5000)
+                return getRandomImage;
+            }(), 5000)
         }
         else {
             let newIndex = 0
             if (key === "a") {
-                intervalId = setInterval(() => {
-                    if(currentIndex === 0) {
-                        newIndex = image_info.length - 1
-                        setCurrentIndex(newIndex);
-                        setCurrentImage(image_info[newIndex]);
-                    } 
-                    else {
-                        newIndex = currentIndex - 1
-                        setCurrentIndex(newIndex);
-                        setCurrentImage(image_info[newIndex]);
-                    }
-                }, 10)
+                if(currentIndex === 0) {
+                    newIndex = image_info.length - 1
+                    setCurrentIndex(newIndex);
+                    setCurrentImage(image_info[newIndex]);
+                } 
+                else {
+                    newIndex = currentIndex - 1
+                    setCurrentIndex(newIndex);
+                    setCurrentImage(image_info[newIndex]);
+                }
             }
             else if (key === "d") {
-                intervalId = setInterval(() => {
-                    if(currentIndex === image_info.length - 1) {
-                        newIndex = 0
-                        setCurrentIndex(newIndex);
-                        setCurrentImage(image_info[newIndex]);
-                    } 
-                    else {
-                        newIndex = currentIndex + 1
-                        setCurrentIndex(newIndex);
-                        setCurrentImage(image_info[newIndex]);
-                    }
-                }, 10)
+                if(currentIndex === image_info.length - 1) {
+                    newIndex = 0
+                    setCurrentIndex(newIndex);
+                    setCurrentImage(image_info[newIndex]);
+                } 
+                else {
+                    newIndex = currentIndex + 1
+                    setCurrentIndex(newIndex);
+                    setCurrentImage(image_info[newIndex]);
+                }
             }
         }
         

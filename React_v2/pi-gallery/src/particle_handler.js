@@ -91,7 +91,7 @@ export default function CustomParticles() {
                 random: false,
                 straight: false,
                 outModes: {
-                    default: "bounce",
+                    default: "destroy",
                 },
                 attract: {
                     enable: false,
