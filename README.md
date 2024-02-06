@@ -2,6 +2,10 @@
 
 PiGallery is an interpretation of the [Pepper's Ghost illusion](https://en.wikipedia.org/wiki/Pepper%27s_ghost) built with Python, React, and a Leap motion controller 2. Users can use hand gestures to interact with a gallery of images/GIFs that are projected from a screen onto a piece of glass or any transparent film/material.
 
+The original implementation was built with Python and Tkinter (Python_v1). The most up to date version of the UI is in the React_v2 directory.
+
+The most up to date version of the Leap controller code can be found in Python_v1 > leap > gestures.py
+
 # Gestures
 
 There are two types of gestures that allow users to interact with the illusion (both hands supported):
