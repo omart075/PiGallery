@@ -72,7 +72,7 @@ class MyListener(leap.Listener):
                 return True
             self.grabbing = True
         # left hand pinch requires some adjustments due to inaccuracy
-        elif valid and ((self.hand_type == "left" and self.hand.pinch_distance - 10 < self.pinching_threshold) or (self.hand_type == "right" and self.hand.pinch_distance < self.pinching_threshold)):
+        elif valid and self.hand.grab_strength < 0.5 and ((self.hand_type == "left" and self.hand.pinch_distance - 10 < self.pinching_threshold) or (self.hand_type == "right" and self.hand.pinch_distance < self.pinching_threshold)):
             self.pinching = True
 
         return False

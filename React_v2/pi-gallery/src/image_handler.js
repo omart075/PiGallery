@@ -91,6 +91,8 @@ function resizeImages() {
 
     const wh = window.innerHeight
     const ww = window.innerWidth
+    
+    console.log("here")
 
     for (let i = 0; i < image_info.length; i++) {
         let img = new Image();
@@ -117,11 +119,9 @@ function resizeImages() {
     console.log(image_info)
 }
 
-export default function ImageSwapper() {
-    if (image_info[0].width === 0) {
-        resizeImages()
-    }
+resizeImages()
 
+export default function ImageSwapper() {
     const [currentIndex, setCurrentIndex] = useState(0);
     const [currentImage, setCurrentImage] = useState(null);
     const [random, setRandom] = useState(true);
