@@ -126,19 +126,19 @@ export default function ImageSwapper() {
     const [currentImage, setCurrentImage] = useState(null);
     const [random, setRandom] = useState(true);
     const [key, setKey] = useState("");
-    const [change, setChange] = useState(0);
+    const [change, setChange] = useState(false);
 
     useEffect(() => {
         window.addEventListener('keypress', e => {
             if (e.key === "s") {
                 setRandom(prev => !prev);
                 setKey(e.key)
-                setChange(prev => prev + 1)
+                setChange(prev => !prev)
             }
             else if (["a", "d"].includes(e.key)) {
                 setRandom(false)
                 setKey(e.key)
-                setChange(prev => prev + 1)
+                setChange(prev => !prev)
             }
         });
     }, [])
@@ -184,7 +184,7 @@ export default function ImageSwapper() {
         }
         
         return () => clearInterval(intervalId);
-    }, [random, key, change])
+    }, [change])
     
     return (
         <div>
