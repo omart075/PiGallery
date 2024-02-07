@@ -91,8 +91,6 @@ function resizeImages() {
 
     const wh = window.innerHeight
     const ww = window.innerWidth
-    
-    console.log("here")
 
     for (let i = 0; i < image_info.length; i++) {
         let img = new Image();
@@ -116,7 +114,6 @@ function resizeImages() {
         image_info[i].width = resized_width
         image_info[i].height = resized_height
     }
-    console.log(image_info)
 }
 
 resizeImages()
